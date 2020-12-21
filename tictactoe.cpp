@@ -44,36 +44,30 @@ int main()
     int x = 0;
     while(1)
     {
-        std::cout << "Created by Dylan Ang" << std::endl;
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
                 std::cout << board[i][j];
             }
         }
-        if ((moves % 2) == 0) {
-            std::cout << pl1 << "'s move" << std::endl;
-            std::cout << "Letter: ";
-            std::cin >> y;
-            std::cout << "Number: ";
-            std::cin >> x;
-            std::cout << y << x << std::endl;
-            moves++;
-            int yy = ctoi(y);
-            int xx = itoi(x);
-            board[yy][xx] = ex;
+        //get input
+        if ((moves % 2) == 0) std::cout << pl1 << "'s move: ";
+        else std::cout << pl2 << "'s move: ";
+        std::cin >> y;
+        if (y == 'q') {
+            std::cout << "You have quit" << std::endl;
+            break;
         }
-        
+        std::cin >> x;
+        int yy = ctoi(y);
+        int xx = itoi(x);
+        if (yy == 0 || xx == 0) std::cout << "Invalid Input" << std::endl;
+        //claim tiles
         else {
-            std::cout << pl2 << "'s move" << std::endl;
-            std::cout << "Letter: ";
-            std::cin >> y;
-            std::cout << "Number: ";
-            std::cin >> x;
-            std::cout << y << x << std::endl;
-            moves++;
-            int yy = ctoi(y);
-            int xx = itoi(x);
-            board[yy][xx] = oh;
+            if (board[yy][xx] == ' ') {
+                if ((moves % 2) == 0) board[yy][xx] = ex;
+                else board[yy][xx] = oh;  
+                moves++;
+            }
         }
     }
     
@@ -92,7 +86,13 @@ int ctoi(char let) {
         case 'C':
             return 5;
         case 'c':
-            return 5;    
+            return 5;
+        case 'q':
+            return 6;
+        case 'Q':
+            return 6;
+        default:
+            return 0;
     }
     return 0;
 }
@@ -105,6 +105,8 @@ int itoi(int num) {
             return 3;
         case 3:
             return 5;
+        default:
+            return 0;
     }
     return 0;
 }
