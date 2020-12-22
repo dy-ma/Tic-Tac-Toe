@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 
 #define ex 'X'
 #define oh 'O'
@@ -20,28 +21,39 @@ int main()
     };
 
     //Printing Setup
-    std::cout << "TIC-TAC-TOE" << std::endl;
-    std::cout << "Created by Dylan Ang" << std::endl;
+    std::cout << "========================" << std::endl;
+    std::cout << "      TIC-TAC-TOE" << std::endl;
+    //std::cout << "========================" << std::endl;
+    std::cout << "  Created by Dylan Ang" << std::endl;
+    std::cout << "========================" << std::endl;
     for (int i = 0; i < 6; i++) {
         for (int j = 0; j < 7; j++) {
             std::cout << board[i][j];
         }
     }
-    std::cout << "A1 is the top left box" << std::endl;
-
-    //char* pl1 = 0, pl2 = 0;
+    //std::cout << "A1 is the top left box" << std::endl;
+    std::cout << "Enter q to quit." << std::endl;
     char pl1[10];
     char pl2[10];
     std::cout << "Enter Player 1's name: ";
     std::cin >> pl1;
+    if (strcmp(pl1, "q") == 0) {
+        std::cout << "You have quit" << std::endl;
+        return 0;
+    }
     std::cout << "Enter Player 2's name: ";
     std::cin >> pl2;
+    if (strcmp(pl2, "q") == 0) {
+        std::cout << "You have quit" << std::endl;
+        return 0;
+    }
 
     //game loop
     int moves = 0;
     //char* mov;
     char y = 0;
     int x = 0;
+    bool win = false;
     while(1)
     {
         for (int i = 0; i < 6; i++) {
@@ -49,10 +61,17 @@ int main()
                 std::cout << board[i][j];
             }
         }
+        if (win == true) {
+            std::cout << "================================" << std::endl;
+            std::cout << "Winner Winner Chicken Dinner!" << std::endl;
+            std::cout << "================================" << std::endl;
+            break;
+        }
         //get input
         if ((moves % 2) == 0) std::cout << pl1 << "'s move: ";
         else std::cout << pl2 << "'s move: ";
         std::cin >> y;
+        std::cout << std::endl;
         if (y == 'q') {
             std::cout << "You have quit" << std::endl;
             break;
@@ -69,8 +88,23 @@ int main()
                 moves++;
             }
         }
+        //Win check
+        //rows
+        for (int i = 1; i <= 5; i += 2) {
+            if (board[i][1] != ' ' && board[i][1] == board[i][3] && board[i][3] == board[i][5])
+                win = true;
+        }
+        //columns
+        for (int i = 1; i <= 5; i += 2) {
+            if (board[1][i] != ' ' && board[1][i] == board[3][i] && board[3][i] == board[5][i])
+                win = true;
+        }
+        //diagonal
+        if (board[1][5] != ' ' && board[1][5] == board[3][3] && board[3][3] == board[5][1])
+            win = true;
+        if (board[1][1] != ' ' && board[1][1] == board[3][3] && board[3][3] == board[5][5])
+            win = true;
     }
-    
 }
 
 int ctoi(char let) {
